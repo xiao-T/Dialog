@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>对话框|模态对话框</title>
+	<link rel="stylesheet" href="css/dialog.css">
 </head>
 <body>
 	<!-- 以下是js生成的html结构 -->
@@ -20,5 +21,16 @@
 			</div>
 		</div>
 	</div> -->
+	<button id="show">显示</button>
+	<script src="js/dialog.js"></script>
+	<script>
+		(function(){
+			var showBtn = document.querySelector('#show');
+
+			show.onclick = function(){
+				Dialog.alert('test')
+			}
+		})()
+	</script>
 </body>
 </html>

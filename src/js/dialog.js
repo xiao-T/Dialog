@@ -10,17 +10,17 @@
  * Dialog.confirmYY('确定要删除吗？', okCallBack, cancelCallBack);
  * Dialog.alertYY('确定要删除吗？', okCallBack);
  */
-var Dialog = (function($, win){
+var Dialog = (function(win){
     var body = document.getElementsByTagName('body')[0],
         isAlert = true;
     var callBack = {};
         
-    var alertYY = function(str, okCallBack) {
+    var alert = function(str, okCallBack) {
         isAlert = true;
         callBack.ok = okCallBack;
         creatDom(str);
     }
-    var confirmYY = function(str, okCallBack, cancelCallBack){
+    var confirm = function(str, okCallBack, cancelCallBack){
         isAlert = false;
         callBack.ok = okCallBack;
         callBack.cancel = cancelCallBack;
@@ -39,13 +39,13 @@ var Dialog = (function($, win){
             dialogAction = document.createElement('div'),
             okBtn = document.createElement('a'),
             cancelBtn = document.createElement('a'),
-            dialog = $('.dialog');
+            dialog = document.querySelectorAll('.dialog');
         // 没有提示内容
         // 控制台打印错误
         // 返回false
         error(str);
         // 删除 已有的 dialog
-        dialog.remove();
+        // dialog.remove();
         // 确定 取消按钮
         okBtn.innerHTML = '确定';
         cancelBtn.innerHTML = '取消';
@@ -88,13 +88,8 @@ var Dialog = (function($, win){
         // console.log(btn.length)
         for(var i=0,l=btn.length; i<l; i++) {
 
-            btn[i].addEventListener('touchstart', handle, false)
-            /*btn[i].ontouchstart = function(){
-            // btn[i].onclick = function(){
-                
-                // 解除绑定 释放内存
-                obj.ontouchstart = null;
-            }*/
+            btn[i].addEventListener('touchstart', handle, false);
+            btn[i].addEventListener('click', handle, false)
         }
     }
     function handle() {
@@ -127,7 +122,7 @@ var Dialog = (function($, win){
     }
 
     return {
-        'alertYY': alertYY,
-        'confirmYY': confirmYY
+        'alert': alert,
+        'confirm': confirm
     }
-})($, window)
+})(window)

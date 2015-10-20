@@ -1,9 +1,11 @@
 @charset "UTF-8";
 /**
  * Create by xiaoT
- * at 2015-09-010
+ * at 2015-10-20
  */
 
+$borderColor: #ccc;
+$heighLightColor: #3c77bf;
 
 // 弹窗
 .dialog {
@@ -16,8 +18,8 @@
     justify-content: center;
     align-items: center;
 	.dialog_main {
-		width: 70%;
-		height: 30%;
+		min-height: 200px;
+		min-width: 300px;
 		background-color: #fff;
 		border: 1px solid #ccc;
 		border-radius: 5px;
@@ -44,7 +46,8 @@
 	}
 	.dialog_action {
 		border-top: 1px solid $borderColor;
-		height: 24%;
+		padding-top: 10px;
+		padding-bottom: 10px;
 		display: flex;
 	}
 	.dialog_btn {
