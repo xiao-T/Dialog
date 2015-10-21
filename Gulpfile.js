@@ -14,8 +14,10 @@ gulp.task('compass', function(){
 	console.log('start compass')
 	gulp.src(dir.src + '/scss/*.scss')
 		.pipe(compass({
+			css: dir.src + '/css',
 			style: 'compact',
 			sass: dir.src + '/scss'
 		}))
-		.pipe(gulp.dest(dir.src + '/css'));
+		// .pipe(gulp.dest(dir.src + '/css'));
+		
 });

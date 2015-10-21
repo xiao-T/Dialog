@@ -5,8 +5,11 @@
  */
 
 $borderColor: #ccc;
-$heighLightColor: #3c77bf;
+$heighLightColor: #3c7af0;
 
+a {
+	text-decoration: none;
+}
 // 弹窗
 .dialog {
 	width: 100%;
