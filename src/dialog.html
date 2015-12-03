@@ -12,13 +12,15 @@
 	<!-- 具体使用过程中，这些完全不用写在源码中 -->
 	<!-- 目前只兼容移动端 或 一些现代浏览器 -->
 	<!-- <div style="display: none;" class="dialog">
-		<div class="dialog_main">
-			<div class="dialog_cont">
-				你确定删除吗？你确定删除吗？你确定删除吗？
-			</div>
-			<div class="dialog_action">
-				<a data-type="true" href="javascript:;" class="dialog_btn">确定</a>
-				<a data-type="false" href="javascript:;" class="dialog_btn">取消</a>
+		<div class="dialog-main-wrap">
+			<div class="dialog-main">
+				<div class="dialog-cont">
+					你确定删除吗？你确定删除吗？你确定删除吗？
+				</div>
+				<div class="dialog-action dialog-span2">
+					<a data-type="true" href="javascript:;" class="dialog-btn">确定</a>
+					<a data-type="false" href="javascript:;" class="dialog-btn">取消</a>
+				</div>
 			</div>
 		</div>
 	</div> -->
@@ -29,7 +31,7 @@
 			var showBtn = document.querySelector('#show');
 
 			show.onclick = function(){
-				Dialog.alert('test')
+				Dialog.confirm('TEST')
 			}
 		})()
 	</script>

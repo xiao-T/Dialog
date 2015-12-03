@@ -5,23 +5,22 @@
 /**
  * 模态对话框
  * version: 0.0.1
- * 依赖zepto
  * 使用方式
  * Dialog.confirmYY('确定要删除吗？', okCallBack, cancelCallBack);
  * Dialog.alertYY('确定要删除吗？', okCallBack);
  */
 var Dialog = (function(win){
     var body = document.getElementsByTagName('body')[0],
-        isAlert = true;
+        dialogType = 'alert';
     var callBack = {};
         
     var alert = function(str, okCallBack) {
-        isAlert = true;
+        dialogType = 'alert';
         callBack.ok = okCallBack;
         creatDom(str);
     }
     var confirm = function(str, okCallBack, cancelCallBack){
-        isAlert = false;
+        dialogType = 'confirm';
         callBack.ok = okCallBack;
         callBack.cancel = cancelCallBack;
         creatDom(str);
@@ -34,6 +33,7 @@ var Dialog = (function(win){
      */
     function creatDom(str) {
         var dialogBox = document.createElement('div'),
+            dialogMainWrap = document.createElement('div'),
             dialogMain = document.createElement('div'),
             dialogCont = document.createElement('div'),
             dialogAction = document.createElement('div'),
@@ -49,29 +49,34 @@ var Dialog = (function(win){
         // 确定 取消按钮
         okBtn.innerHTML = '确定';
         cancelBtn.innerHTML = '取消';
-        okBtn.className = cancelBtn.className = 'dialog_btn';
+        okBtn.className = cancelBtn.className = 'dialog-btn';
         okBtn.href = cancelBtn.href = 'javascript:;';
         okBtn.setAttribute('data-type', 'true');
         cancelBtn.setAttribute('data-type', 'false');
         // 弹窗 提示内容
-        dialogCont.className = 'dialog_cont';
+        dialogCont.className = 'dialog-cont';
         dialogCont.innerHTML = str;
 
         // 弹窗 操作按钮
-        dialogAction.className = 'dialog_action';
-        if(isAlert) {
+        if(dialogType === 'alert') {
+            dialogAction.className = 'dialog-action';
             dialogAction.appendChild(okBtn);
-        } else {
+        } else if(dialogType === 'confirm') {
+            dialogAction.className = 'dialog-action dialog-span2';
             dialogAction.appendChild(okBtn);
             dialogAction.appendChild(cancelBtn);
         }
 
-        dialogMain.className = 'dialog_main';
+        dialogMain.className = 'dialog-main';
         dialogMain.appendChild(dialogCont);
         dialogMain.appendChild(dialogAction);
 
+
+        dialogMainWrap.className = 'dialog-main-wrap';
+        dialogMainWrap.appendChild(dialogMain);
+
         dialogBox.className =  'dialog';
-        dialogBox.appendChild(dialogMain);
+        dialogBox.appendChild(dialogMainWrap);
         // 写入 body 
         body.appendChild(dialogBox);
 
@@ -84,19 +89,25 @@ var Dialog = (function(win){
      * 返回 true or false
      */
     function addEvent() {
-        var btn = document.querySelectorAll('.dialog_btn');
-        // console.log(btn.length)
+        var btn = document.querySelectorAll('.dialog-btn'),
+            handleType = 'ontouchstart' in window ? 'touchstart':'click';
+        // console.log(handleType)
         for(var i=0,l=btn.length; i<l; i++) {
-
-            btn[i].addEventListener('touchstart', handle, false);
-            btn[i].addEventListener('click', handle, false)
+            
+            if (btn[i].addEventListener) {
+                btn[i].addEventListener(handleType, handle, false);
+            } else if (btn[i].attachEvent)  {
+                btn[i].attachEvent('on' + handleType, handle);
+            }
         }
     }
-    function handle() {
+    function handle(e) {
         var dialog = document.querySelectorAll('.dialog'),
-            type = this.getAttribute('data-type');
+            e = window.event || e,
+            target = e.srcElement || e.target,
+            type = target.getAttribute('data-type');
         // 解除绑定 释放内存
-        this.removeEventListener('touchstart', handle, false);
+        // this.removeEventListener('touchstart', handle, false);
         // 移出 dom
         body.removeChild(dialog[0]);
         // 执行回调
@@ -107,7 +118,6 @@ var Dialog = (function(win){
             callBack.cancel();
             return false;
         }
-        // return JSON.parse(this.getAttribute('data-type'));
     }
     /**
      * 错误提示
